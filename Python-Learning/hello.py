@@ -1,1 +1,3 @@
-print("Hello AI Engineer")
+name = "AI Engineer"
+
+print("Hello,", name)
