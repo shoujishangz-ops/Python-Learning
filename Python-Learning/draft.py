@@ -1,11 +1,21 @@
 documents=[
-    {"name":"Python","score":0.9},
-    {"name":"Java","score":0.4},
-    {"name":"RAG","score":0.8}
+    {
+        "name":"Python基础",
+        "score":0.9
+    },
+    {
+        "name":"Git教程",
+        "score":0.7
+    },
+    {
+        "name":"RAG原理",
+        "score":0.95
+    }
 ]
-document = [
-    document["name"]
-    for document in documents
-    if document["score"] >= 0.7
-]
-print(document)
+result={
+    doc["name"]:"优秀"
+    for doc in documents
+    if doc["score"] >= 0.8
+}
+for key,value in result.items():
+    print(f"{key}:{value}")
