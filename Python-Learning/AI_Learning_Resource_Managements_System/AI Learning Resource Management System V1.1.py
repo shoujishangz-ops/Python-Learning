@@ -15,7 +15,7 @@ def show_documents(documents):
     for i,document in enumerate(documents,start=1):
         print(f"资料{i}:")
         print_document(document)
-       
+
 def add_documents(documents):
     new_name = input("请输入资料名称:")
     new_category = input("请输入资料分类:")
