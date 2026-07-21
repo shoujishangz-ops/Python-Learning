@@ -1,20 +1,23 @@
 import json
 
-def print_documents(documents):
-    for i,document in enumerate(documents,start=1):
-        print(f"学生{i}:")
-        for key,value in document.items():
-            print(f"{key}:{value}")
-        print()
+
+#数据操作
 
 def store_data(students):
     try:
         with open("student.json","w",encoding="utf-8") as f:
             json.dump(students,f,ensure_ascii=False)
-    except Exception:
-        print("保存失败")
+        return{
+            "success" : True,
+            "message" : "保存成功"
+            }
+    except Exception as e:
+        return {
+            "success":False,
+            "message":"保存失败"+str(e)
+        }
 
-def show_students():
+def load_students():
     try:
         with open("student.json","r",encoding="utf-8") as f:
             students = json.load(f)
@@ -23,8 +26,27 @@ def show_students():
 
     return students
 
-def add_student(students):
-    name = input("请输入学生姓名:")
+#学生操作
+def get_student_id(students):
+    while True:
+        try:
+            num = int(input("请输入学生编号:"))
+
+            if 1 <= num <= len(students):
+                return num
+            else:
+                print("没有这个学生")
+
+        except ValueError:
+            print("请输入数字:")
+
+def create_student():
+    while True:  
+        name = input("请输入学生姓名:")
+        if name:
+            break
+        else:
+            print("添加学生姓名不能为空")
 
     while True:
         try:
@@ -37,48 +59,59 @@ def add_student(students):
         "姓名" : name,
         "年龄" : age
     }
+    return student
 
+def add_student(students,student):
     students.append(student)
+    return {
+        "success" : True,
+        "message" : "添加成功",
+        "data" : students
+    }
 
-def change_student(students):
+def change_student(students,id):
     while True:
-        try:
-            num = int(input("修改第几个学生:"))
-            if 1<= num <= len(students):
-                    break
-            else:
-                    print("未找到该学生")
-        except ValueError:
-            print("请输入阿拉伯数字")
-    name = input("请输入更改后的学生姓名")
+        name = input("请输入更改后的学生姓名")
+        if name:
+            break
     while True:
         try:
             age = int(input("请输入更改后的年龄:"))
             break
         except ValueError:
             print("年龄输入有误，请输入整数")
-    students[num-1]["姓名"] = name
-    students[num-1]["年龄"] = age
-    print("更改成功")
-    return students
+    students[id-1]["姓名"] = name
+    students[id-1]["年龄"] = age
+    return {
+        "success" : True,
+        "message" : "修改成功",
+        "data" : students
+    }
 
-def delete_student(students):
-    while True:
-        try:
-            num = int(input("请输入要删除的学生编号"))
-            if 1 <= num <=len(students):
-                break
-            else:
-                print("没有这个学生")
-        except ValueError:
-                print("请输入阿拉伯数字")
+def delete_student(students,id):
+    if not 1 <= id <=len(students):
+        return{
+            "success" : False,
+            "message" : "未找到该学生",
+            "data" : None
+        }
+    else: 
+        del students[id-1]
+        return {
+            "success" : True,
+            "message" : "删除成功",
+            "data" : students
+        }
+
     
-    del students[num-1]
-    print("删除成功")
-    return students
+#显示
 
-    
-
+def print_documents(documents):
+    for i,document in enumerate(documents,start=1):
+        print(f"学生{i}:")
+        for key,value in document.items():
+            print(f"{key}:{value}")
+        print()
 
 def menu():
         print("—————————学生数据系统————————")
@@ -89,27 +122,5 @@ def menu():
         print("5.退出")
         print()
 
-def main():
-    while True:
-        students = show_students()
-        menu()
-        num = input("请输入操作编号:")
-        if num == "1":
-            add_student(students)
-            store_data(students)
-        elif num == "2":
-            print_documents(students)
-        elif num == "3":
-            students = change_student(students)
-            store_data(students)
-        elif num =="4":
-            students = delete_student(students)
-            store_data(students)
-        elif num =="5":
-            print("退出程序中...")
-            break
-        else:
-            print("编号输入错误")
-    print("退出成功")
-
-main()
+if __name__ == "__main__":
+    print("管理工具加载中")
