@@ -1,0 +1,6 @@
+# Python缓存
+__pycache__/
+*.pyc
+
+# 数据文件
+*.json
