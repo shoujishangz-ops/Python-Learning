@@ -1,10 +1,10 @@
 class Student:
-    def __init__(self,id,name,score):
+    def __init__(self,id: int,name: str,score: float):
         self.id = id
         self.name = name
         self.score = score
     
-    def to_dict(self):
+    def to_dict(self) -> None:
         return {
             "id":self.id,
             "name":self.name,
@@ -12,7 +12,7 @@ class Student:
         }
     
     @classmethod
-    def from_dict(cls,data):
+    def from_dict(cls,data) -> None:
         return cls(
             data["id"],
             data["name"],

@@ -21,15 +21,16 @@ def main():
             except ValueError:
                 print("请输入数字")
         if num == 1:
-            id = input("请输入学生id:")
+            id = int(input("请输入学生id:"))
             name = input("请输入学生名字:")
-            score = input("请输入学生分数:")
+            score = float(input("请输入学生分数:"))
             new_student = Student(id,name,score)
             manager.add_student(new_student)
+            print("添加成功！")
         elif num == 2:
             print(manager.show_students())
         elif num == 3:
-            id = input("请输入要删除的学生id:")
+            id = int(input("请输入要删除的学生id:"))
             if manager.search_student(id)["success"]:
                 print(manager.search_student(id)["manage"])
                 student = manager.search_student(id)["data"]
@@ -38,11 +39,11 @@ def main():
             else:
                 print(manager.search_student(id)["manage"])
         elif num == 4:
-            id = input("请输入要删除的学生id:")
+            id = int(input("请输入要删除的学生id:"))
             if manager.search_student(id)["success"]:
                 print(manager.search_student(id)["manage"])
                 student = manager.search_student(id)["data"]
-                score = int(input("请输入更改后的分数:"))
+                score = float(input("请输入更改后的分数:"))
                 manager.update_score(student,score)
             else:
                 print(manager.search_student(id)["manage"])
