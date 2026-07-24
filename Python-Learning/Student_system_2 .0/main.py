@@ -31,22 +31,22 @@ def main():
             print(manager.show_students())
         elif num == 3:
             id = int(input("请输入要删除的学生id:"))
-            if manager.search_student(id)["success"]:
-                print(manager.search_student(id)["manage"])
-                student = manager.search_student(id)["data"]
+            student = manager.search_student(id)
+            if student:
+                print("已找到该学生")
                 manager.delete_student(student)
                 print("删除成功")
             else:
-                print(manager.search_student(id)["manage"])
+                print("未找到该学生")
         elif num == 4:
             id = int(input("请输入要删除的学生id:"))
-            if manager.search_student(id)["success"]:
-                print(manager.search_student(id)["manage"])
-                student = manager.search_student(id)["data"]
+            student = manager.search_student(id)
+            if student:
+                print("已找到该学生")
                 score = float(input("请输入更改后的分数:"))
                 manager.update_score(student,score)
             else:
-                print(manager.search_student(id)["manage"])
+                print("未找到该学生")
         elif num == 5:
             print("退出成功")
             break

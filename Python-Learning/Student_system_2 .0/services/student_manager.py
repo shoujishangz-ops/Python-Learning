@@ -1,6 +1,6 @@
 from models import Student
-from utils import from_json
-from utils import to_json
+from utils import from_json,to_json
+from utils.logger import logger
 
 class StudentManager:
 
@@ -14,6 +14,10 @@ class StudentManager:
         self.students.append(student)
 
         to_json(self.students)
+
+        logger.info(
+            f"添加学生成功 id={student.id}"
+        )
     
 
     def delete_student(self,student: Student) -> None:
@@ -22,20 +26,21 @@ class StudentManager:
 
         to_json(self.students)
 
+        logger.info(
+            f"删除学生成功 id={student.id}"
+        )
 
-    def search_student(self,id: int) -> Student|None:
+
+    def search_student(self,id: int) -> Student | None:
 
         for student in self.students:
             if(student.id == id):
-                return {
-                    "success":True,
-                    "manage":"查询到该学生",
-                    "data":student
-                }
-        return {
-                    "success":False,
-                    "manage":"未查询到该学生",
-                }
+                return student
+
+        logger.warning(
+            f"未找到学生 id={id}"
+        )
+        return None
 
 
     def update_score(self,student: Student,score: float) -> None:
@@ -53,15 +58,18 @@ class StudentManager:
 
         result.append("=====学生列表=====")
         result.append(
-            f"{'ID':<10}{'姓名':<10}{'成绩':<10}"
+            f"{'ID':<10}{'姓名':<10}{'成绩':<10}{'创建时间':<20}"
         )
-        result.append("-"*20)
+        result.append("-"*50)
 
         for student in self.students:
             result.append(
-                f"{student.id:<10}{student.name:<10}{student.score:<10}"
+                f"{student.id:<10}"
+                f"{student.name:<10}"
+                f"{student.score:<10}"
+                f"{student.create_at.strftime('%Y-%m-%d %H:%M')}"
             )
-        result.append("-"*20)
+        result.append("-"*50)
         result.append(
             f"共{len(self.students)}名学生"
         )
